@@ -12,10 +12,9 @@ public record UsuarioDto(
     @NotBlank String senha,
 
     @NotBlank String apelido,
+    MultipartFile url_img,
 
-    @NotBlank String dataNasc,
-
-    MultipartFile img
+    String tipo_usuario
 ){
 
 }

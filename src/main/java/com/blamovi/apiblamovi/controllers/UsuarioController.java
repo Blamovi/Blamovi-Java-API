@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/usuarios", produces = {"application/json"})
@@ -33,7 +34,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{idUsuario}")
-    public ResponseEntity<Object> buscarUsuario(@PathVariable(value = "idUsuario")Integer id){
+    public ResponseEntity<Object> buscarUsuario(@PathVariable(value = "idUsuario")UUID id){
         Optional<UsuarioModel> usuarioBuscado = usuarioRepository.findById(id);
 
         if (usuarioBuscado.isEmpty()){
@@ -66,7 +67,7 @@ public class UsuarioController {
         String foto;
 
         try {
-            foto = fileUploadService.fazerUpload(usuarioDto.img());
+            foto = fileUploadService.fazerUpload(usuarioDto.url_img());
         }catch (IOException e){
             throw new RuntimeException(e);
         }
@@ -80,7 +81,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{idUsuario}")
-    public ResponseEntity<Object> editarUsuario(@PathVariable(value = "idUsuario") Integer id, @RequestBody @Valid UsuarioDto usuarioDto){
+    public ResponseEntity<Object> editarUsuario(@PathVariable(value = "idUsuario") UUID id, @RequestBody @Valid UsuarioDto usuarioDto){
         Optional<UsuarioModel> usuarioBuscado = usuarioRepository.findById(id);
 
         if (usuarioBuscado.isEmpty()){
@@ -93,7 +94,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{idUsuario}")
-    public ResponseEntity<Object> deletarUsuario(@PathVariable(value = "idUsuario") Integer id){
+    public ResponseEntity<Object> deletarUsuario(@PathVariable(value = "idUsuario") UUID id){
         Optional<UsuarioModel> usuarioBuscado = usuarioRepository.findById(id);
 
         if (usuarioBuscado.isEmpty()){

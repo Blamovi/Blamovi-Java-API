@@ -20,66 +20,64 @@ import java.util.UUID;
 @Entity
 @Table(name = "usuario")
 public class UsuarioModel implements Serializable, UserDetails {
-        @Serial
-        private static final long serialVersionUID = 1L;
-        @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
-        @Column(name = "id_Usuario", nullable = false)
-        private int id;
-        private String nome;
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-        @JsonIgnore
-        private String senha;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_usuario", nullable = false)
+    private UUID id_usuario;
 
-        private String apelido;
+    private String nome;
+    @JsonIgnore
+    private String senha;
+    private String apelido;
+    private String email;
+    private String url_img;
+    private TipoModel tipo_usuario;
 
-        private String email;
-        private String dataNasc;
-        private String url_img;
-        private TipoModel tipo_usuario;
-
-        @Override
-        public Collection<? extends GrantedAuthority> getAuthorities() {
-                if (this.tipo_usuario == TipoModel.ADMIN){
-                        return List.of(
-                          new SimpleGrantedAuthority("ROLE_ADMIN"),
-                          new SimpleGrantedAuthority("ROLE_USUARIO")
-                        );
-                } else if (this.tipo_usuario == TipoModel.usuario) {
-                        return List.of(
-                          new SimpleGrantedAuthority("ROLE_USUARIO")
-                        );
-                }
-                return null;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (this.tipo_usuario == TipoModel.ADMIN) {
+            return List.of(
+                    new SimpleGrantedAuthority("ROLE_ADMIN"),
+                    new SimpleGrantedAuthority("ROLE_USUARIO")
+            );
+        } else if (this.tipo_usuario == TipoModel.usuario) {
+            return List.of(
+                    new SimpleGrantedAuthority("ROLE_USUARIO")
+            );
         }
+        return null;
+    }
 
-        @Override
-        public String getPassword() {
-                return senha;
-        }
+    @Override
+    public String getPassword() {
+        return senha;
+    }
 
-        @Override
-        public String getUsername() {
-                return email;
-        }
+    @Override
+    public String getUsername() {
+        return email;
+    }
 
-        @Override
-        public boolean isAccountNonExpired() {
-                return true;
-        }
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
-        @Override
-        public boolean isAccountNonLocked() {
-                return true;
-        }
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
 
-        @Override
-        public boolean isCredentialsNonExpired() {
-                return true;
-        }
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
 
-        @Override
-        public boolean isEnabled() {
-                return true;
-        }
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
